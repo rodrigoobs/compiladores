@@ -1,11 +1,10 @@
 _
--9
-_9   char int float if else then return
+// -9
+_9
 _a
-a9  <= == >=
-a9_  afdtsa6
-a_9 vfhi_8
-9
-a  . ; { }
-9a
-9_     7.65
+a9
+a9_ if then else
+9 ifvoej0
+a b
+9a ; + * / -{}
+9_

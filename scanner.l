@@ -5,7 +5,7 @@
 %}
 digito		[0-9]
 letra		[a|c|[e-o]|[r-z]|[A-Z]]
-caracterEspecial [,|;|:|b|d|p|q|{|}|+|-|*|/|<|>|=|!|&|$|#]
+caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 
 %x COMMENT
 

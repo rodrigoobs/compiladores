@@ -1,4 +1,9 @@
 %{
+	/*
+		Etapa 1
+		Nomes: Laurien Santin e Rodrigo Oliveira
+		Usuário: ~lsantin
+	*/
 	#include "tokens.h"
 	#include "hash.h"
 	int lineNumber, running;
@@ -33,7 +38,7 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 
 {caracterEspecial}		{return yytext[0];}
 
-"\n"				{lineNumber++; printf("\n%3d: ",lineNumber);}
+"\n"				{lineNumber++;}
 
 {digito}+			{hashInsert(LIT_INTEGER, yytext); return LIT_INTEGER;}
 [0-9]+"\."[0-9]+		{hashInsert(LIT_FLOAT, yytext); return LIT_FLOAT;}
@@ -46,7 +51,7 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 
 "//".*
 "/*" 				{BEGIN (COMMENT);}
-<COMMENT>\n 			{lineNumber++; printf("\n%3d", lineNumber);}		
+<COMMENT>\n 			{lineNumber++;}		
 <COMMENT>.
 <COMMENT>"*/" 			{BEGIN (INITIAL);}			
 

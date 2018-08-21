@@ -1,3 +1,8 @@
+/*
+	Etapa 1
+	Nomes: Laurien Santin e Rodrigo Oliveira
+	Usuário: ~lsantin
+*/
 #define HASH_SIZE 997
 
 typedef struct hash_node

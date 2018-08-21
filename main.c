@@ -1,3 +1,9 @@
+/*
+	Etapa 1
+	Nomes: Laurien Santin e Rodrigo Oliveira
+	Usuário: ~lsantin
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "tokens.h"
@@ -56,6 +62,8 @@ int main(int argc, char** argv)
 			case TK_IDENTIFIER:	printf("[ID]");break;
 			case LIT_INTEGER:	printf("[integer]");break;
 			case LIT_FLOAT:		printf("[real]");break;
+			case LIT_STRING:	printf("[STRING]");break;
+			case LIT_CHAR:		printf("[CHAR]");break;
 			case TOKEN_ERROR: 	printf("TOKEN UNKNOWN"); break;
 			default:	printf("That wasn't supposed to happen..\n");
 		}

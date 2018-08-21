@@ -1,3 +1,8 @@
+/*
+	Etapa 1
+	Nome: Laurien Santin e Rodrigo Oliveira
+	Usuário: ~lsantin
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

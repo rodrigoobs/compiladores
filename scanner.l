@@ -6,7 +6,7 @@
 	*/
 	#include "y.tab.h"
 	#include "hash.h"
-	int lineNumber, running;
+	int lineNumber = 1;
 %}
 digito		[0-9]
 letra		[a|c|[e-o]|[r-z]|[A-Z]]
@@ -40,9 +40,9 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 
 "\n"				{lineNumber++;}
 
-{digito}+			{hashInsert(LIT_INTEGER, yytext); return LIT_INTEGER;}
-[0-9]+"\."[0-9]+		{hashInsert(LIT_FLOAT, yytext); return LIT_FLOAT;}
-[a|c|e-o|r-z|A-Z|_][a|c|e-o|r-z|A-Z|0-9|_]* {hashInsert(TK_IDENTIFIER, yytext); return TK_IDENTIFIER;}
+{digito}+			{hashInsert(LIT_INTEGER, yytext); yylval = yytext; return LIT_INTEGER;}
+[0-9]+"\."[0-9]+		{hashInsert(LIT_FLOAT, yytext); yylval = yytext; return LIT_FLOAT;}
+[a|c|e-o|r-z|A-Z|_][a|c|e-o|r-z|A-Z|0-9|_]* {hashInsert(TK_IDENTIFIER, yytext); yylval = yytext[0]; return TK_IDENTIFIER;}
 
 \"([^(\\.)\"]|\\.)*\"		{hashInsert(LIT_STRING, yytext); return LIT_STRING;}
 "'"("\\".|[^'\n])"'"		{hashInsert(LIT_CHAR, yytext); return LIT_CHAR;}
@@ -58,27 +58,8 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 .				{return TOKEN_ERROR;}
 
 %%
-void initMe()
-{
-	hashInit();
-	running = 1;
-	lineNumber = 1;
-}
-
-int isRunning()
-{
-	return running;
-}
-
-int getLineNumber()
-{
-	return lineNumber;
-}
-
-
 int yywrap()
 {	
-	running = 0;
 	return 1;
 }
 

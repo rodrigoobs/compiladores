@@ -1,4 +1,1 @@
-/* "teste" */
-"testeteste"
-'a''"'
-"teste\"t'e'ste\n"
+d 4 b

@@ -1,12 +1,14 @@
 %{ 
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include "hash.h"
 	#include "y.tab.h"
 	int yylex(void); 
 	void yyerror(char *); 
 	extern char *yytext;
 	extern FILE *yyin;
 	extern int yylineno;
+
 %} 
 %token 	KW_CHAR
 %token 	KW_INT 
@@ -34,17 +36,33 @@
 %left 	OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_OR OPERATOR_AND 
 %left	'+' '-'
 %left	'*' '/'
+%left	OPERATOR_NOT
  
 %% 
-program: 
-        program expr ';'		  { printf("%d\n", $2); } 
-        |
+program:
+	program expr
+	|
+	; 
+	
+expr:   LIT_INTEGER	  		{} 
+	| LIT_FLOAT			{}
+	| LIT_CHAR			{}
+	| expr '+' expr			{fprintf(stderr,"%s + %s",$1,$3);}
+	| expr '-' expr			{fprintf(stderr,"%s - %s",$1,$3);;}
+	| expr '*' expr			{fprintf(stderr,"%s * %s",$1,$3);;}
+	| expr '/' expr			{fprintf(stderr,"%s / %s",$1,$3);;}
+	| expr '<' expr			{fprintf(stderr,"%s < %s",$1,$3);;}
+	| expr '>' expr			{fprintf(stderr,"%s > %s",$1,$3);;}
+	| expr OPERATOR_LE expr		{fprintf(stderr,"%s <= %s",$1,$3);;}
+	| expr OPERATOR_GE expr		{fprintf(stderr,"%s >= %s",$1,$3);;}
+	| expr OPERATOR_EQ expr		{fprintf(stderr,"%s == %s",$1,$3);;}
+	| expr OPERATOR_OR expr		{fprintf(stderr,"%s || %s",$1,$3);;}
+	| expr OPERATOR_AND expr	{fprintf(stderr,"%s && %s",$1,$3);;}
+	| OPERATOR_NOT expr		{fprintf(stderr,"!%d",$1);;}
+        | TK_IDENTIFIER			{fprintf(stderr,"id named by %s\n",yylval);}
+	| 'd' expr 'b'			{fprintf(stderr,"(%s)",$2);}
         ; 
-expr: 
-        LIT_INTEGER               { $$ = $1; } 
-        | expr '+' expr           { $$ = $1 + $3; } 
-        | expr '-' expr           { $$ = $1 - $3; } 
-        ; 
+
 %% 
 
 int yylex();
@@ -72,9 +90,9 @@ int main(int argc, char** argv)
 		exit(2);
 	}
 	
-	initMe();
-
+	hashInit();
 	yyparse();
+	hashPrint();
 	return 0;
 }
 

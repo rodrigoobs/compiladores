@@ -4,7 +4,7 @@
 		Nomes: Laurien Santin e Rodrigo Oliveira
 		Usuário: ~lsantin
 	*/
-	#include "tokens.h"
+	#include "y.tab.h"
 	#include "hash.h"
 	int lineNumber, running;
 %}
@@ -74,7 +74,6 @@ int getLineNumber()
 {
 	return lineNumber;
 }
-#include "main.c"
 
 
 int yywrap()

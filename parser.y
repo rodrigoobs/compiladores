@@ -1,34 +1,40 @@
 %{ 
-    #include <stdio.h>
+	#include <stdio.h>
 	#include <stdlib.h>
-    int yylex(void); 
-    void yyerror(char *); 
+	#include "y.tab.h"
+	int yylex(void); 
+	void yyerror(char *); 
 	extern char *yytext;
 	extern FILE *yyin;
 	extern int yylineno;
 %} 
-%token KW_CHAR
-%token KW_INT 
-%token KW_FLOAT
-%token KW_IF 
-%token KW_THEN 
-%token KW_ELSE 
-%token KW_WHILE 
-%token KW_READ 
-%token KW_RETURN 
-%token KW_PRINT 
-%token OPERATOR_LE 
-%token OPERATOR_GE 
-%token OPERATOR_EQ 
-%token OPERATOR_OR 
-%token OPERATOR_AND 
-%token OPERATOR_NOT 
-%token TK_IDENTIFIER 
-%token LIT_INTEGER 
-%token LIT_FLOAT 
-%token LIT_CHAR 
-%token LIT_STRING 
-%token TOKEN_ERROR 
+%token 	KW_CHAR
+%token 	KW_INT 
+%token 	KW_FLOAT
+%token 	KW_IF 
+%token 	KW_THEN 
+%token 	KW_ELSE 
+%token 	KW_WHILE 
+%token 	KW_READ 
+%token 	KW_RETURN 
+%token 	KW_PRINT 
+%token 	OPERATOR_LE 
+%token 	OPERATOR_GE 
+%token 	OPERATOR_EQ 
+%token 	OPERATOR_OR 
+%token 	OPERATOR_AND 
+%token 	OPERATOR_NOT 
+%token 	TK_IDENTIFIER 
+%token 	LIT_INTEGER 
+%token 	LIT_FLOAT 
+%token 	LIT_CHAR 
+%token 	LIT_STRING 
+%token 	TOKEN_ERROR 
+
+%left 	OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_OR OPERATOR_AND 
+%left	'+' '-'
+%left	'*' '/'
+ 
 %% 
 program: 
         program expr ';'		  { printf("%d\n", $2); } 

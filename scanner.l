@@ -4,8 +4,8 @@
 		Nomes: Laurien Santin e Rodrigo Oliveira
 		Usuário: ~lsantin
 	*/
-	#include "y.tab.h"
 	#include "hash.h"
+	#include "y.tab.h"
 	int lineNumber = 1;
 %}
 digito		[0-9]
@@ -40,12 +40,12 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 
 "\n"				{lineNumber++;}
 
-{digito}+			{hashInsert(LIT_INTEGER, yytext); yylval = yytext; return LIT_INTEGER;}
-[0-9]+"\."[0-9]+		{hashInsert(LIT_FLOAT, yytext); yylval = yytext; return LIT_FLOAT;}
-[a|c|e-o|r-z|A-Z|_][a|c|e-o|r-z|A-Z|0-9|_]* {hashInsert(TK_IDENTIFIER, yytext); yylval = yytext[0]; return TK_IDENTIFIER;}
+{digito}+			{yylval.symbol = hashInsert(LIT_INTEGER, yytext); return LIT_INTEGER;}
+[0-9]+"\."[0-9]+		{yylval.symbol = hashInsert(LIT_FLOAT, yytext); return LIT_FLOAT;}
+[a|c|e-o|r-z|A-Z|_][a|c|e-o|r-z|A-Z|0-9|_]* {yylval.symbol = hashInsert(TK_IDENTIFIER, yytext); return TK_IDENTIFIER;}
 
-\"([^(\\.)\"]|\\.)*\"		{hashInsert(LIT_STRING, yytext); return LIT_STRING;}
-"'"("\\".|[^'\n])"'"		{hashInsert(LIT_CHAR, yytext); return LIT_CHAR;}
+\"([^(\\.)\"]|\\.)*\"		{yylval.symbol = hashInsert(LIT_STRING, yytext); return LIT_STRING;}
+"'"("\\".|[^'\n])"'"		{yylval.symbol = hashInsert(LIT_CHAR, yytext); return LIT_CHAR;}
 
 [ \t]
 

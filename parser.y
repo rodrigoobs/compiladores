@@ -8,8 +8,17 @@
 	extern char *yytext;
 	extern FILE *yyin;
 	extern int yylineno;
+	
+	#define SYMBOL_LIT_INT 1
+	#define SYMBOL_LIT_FLOAT 2
+	#define SYMBOL_LIT_CHAR 3
+	#define SYMBOL_LIT_STRING 4
+	#define SYMBOL_IDENTIFIER 5
 
 %} 
+
+%union { HASH_NODE* symbol; };
+
 %token 	KW_CHAR
 %token 	KW_INT 
 %token 	KW_FLOAT
@@ -26,41 +35,124 @@
 %token 	OPERATOR_OR 
 %token 	OPERATOR_AND 
 %token 	OPERATOR_NOT 
-%token 	TK_IDENTIFIER 
-%token 	LIT_INTEGER 
-%token 	LIT_FLOAT 
-%token 	LIT_CHAR 
-%token 	LIT_STRING 
+%token<symbol>	TK_IDENTIFIER 
+%token<symbol>	LIT_INTEGER 
+%token<symbol> 	LIT_FLOAT 
+%token<symbol>	LIT_CHAR 
+%token<symbol>	LIT_STRING 
 %token 	TOKEN_ERROR 
 
-%left 	OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_OR OPERATOR_AND 
+%left 	'<' '>' OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_OR OPERATOR_AND 
 %left	'+' '-'
 %left	'*' '/'
 %left	OPERATOR_NOT
  
 %% 
 program:
-	program expr
+	progrElements
 	|
-	; 
+	;
+
+progrElements:
+	funcDeclaration progrElements
+	| varDeclaration progrElements
+	|
+	;
+
+name:
+	TK_IDENTIFIER
+	;
+
+vector:
+	name 'q' expression 'p'
+	;
+
+type:
+	KW_CHAR
+	| KW_INT
+	| KW_FLOAT
+	;
 	
-expr:   LIT_INTEGER	  		{} 
-	| LIT_FLOAT			{}
-	| LIT_CHAR			{}
-	| expr '+' expr			{fprintf(stderr,"%s + %s",$1,$3);}
-	| expr '-' expr			{fprintf(stderr,"%s - %s",$1,$3);;}
-	| expr '*' expr			{fprintf(stderr,"%s * %s",$1,$3);;}
-	| expr '/' expr			{fprintf(stderr,"%s / %s",$1,$3);;}
-	| expr '<' expr			{fprintf(stderr,"%s < %s",$1,$3);;}
-	| expr '>' expr			{fprintf(stderr,"%s > %s",$1,$3);;}
-	| expr OPERATOR_LE expr		{fprintf(stderr,"%s <= %s",$1,$3);;}
-	| expr OPERATOR_GE expr		{fprintf(stderr,"%s >= %s",$1,$3);;}
-	| expr OPERATOR_EQ expr		{fprintf(stderr,"%s == %s",$1,$3);;}
-	| expr OPERATOR_OR expr		{fprintf(stderr,"%s || %s",$1,$3);;}
-	| expr OPERATOR_AND expr	{fprintf(stderr,"%s && %s",$1,$3);;}
-	| OPERATOR_NOT expr		{fprintf(stderr,"!%d",$1);;}
-        | TK_IDENTIFIER			{fprintf(stderr,"id named by %s\n",yylval);}
-	| 'd' expr 'b'			{fprintf(stderr,"(%s)",$2);}
+literal:
+	LIT_INTEGER
+	| LIT_FLOAT
+	| LIT_CHAR
+	;
+	
+	
+funcDeclaration:
+	type name 'd' parameterList 'b'
+	| type name 'd' parameterList 'b' cmd
+	;
+
+cmdBlock:
+	'{' cmdList '}'
+	;
+	
+cmdList:
+	cmd ';' cmdList
+	|
+	;
+
+cmd:
+	attribution
+	| KW_IF expression KW_THEN cmd
+	| KW_IF expression KW_THEN cmd KW_ELSE cmd
+	| KW_WHILE expression cmdBlock
+	| KW_READ name
+	| KW_PRINT argList
+	| KW_RETURN expression
+	| cmdBlock
+	| 
+	;
+
+parameterList:
+	type name ',' parameterList
+	| type name
+	|
+	;
+	
+litList:
+	literal litList
+	| literal
+	;
+
+argList:
+	expression ',' argList
+	| expression
+	;
+		
+varDeclaration:
+	type name '=' expression ';'
+	| type name 'q' LIT_INTEGER 'p' ';'
+	| type name 'q' LIT_INTEGER 'p' ':' litList ';'
+	;
+	
+attribution:
+	name '=' expression
+	| vector '=' expression
+	;
+
+expression:
+	literal
+	| LIT_STRING
+	| name
+	| vector
+	| expression '+' expression
+	| expression '-' expression
+	| expression '*' expression
+	| expression '/' expression
+	| expression '<' expression
+	| expression '>' expression
+	| expression OPERATOR_LE expression
+	| expression OPERATOR_GE expression
+	| expression OPERATOR_EQ expression
+	| expression OPERATOR_OR expression
+	| expression OPERATOR_AND expression
+	| OPERATOR_NOT expression
+	| 'd' expression 'b'
+	| name 'd' argList 'b'
+	|
         ; 
 
 %% 
@@ -73,26 +165,7 @@ extern int isRunning();
 extern void initMe();
 
 void yyerror(char *s) { 
-    fprintf(stderr, "line %d: %s\n", yylineno, s);  
+	extern int lineNumber;
+	fprintf(stderr, "line %d: %s\n", lineNumber, s);
+	exit (3);
 } 
-int main(int argc, char** argv)
-{
-	int token;
-	
-	if (argc < 2)
-	{
-		fprintf (stderr, "Forneca o nome do arquivo a ser analisado.\n");
-		exit (1);
-	}
-	if (!(yyin = fopen(argv[1], "r")))
-	{
-		fprintf(stderr, "Erro na abertura do arquivo.\n");
-		exit(2);
-	}
-	
-	hashInit();
-	yyparse();
-	hashPrint();
-	return 0;
-}
-

@@ -48,7 +48,6 @@
 %% 
 program:
 	progrElements
-	|
 	;
 
 progrElements:
@@ -111,8 +110,8 @@ parameterList:
 	;
 	
 litList:
-	literal litList
-	| literal
+	literal
+	| literal litList
 	;
 
 argList:

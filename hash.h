@@ -17,3 +17,7 @@ int hashAddress(char *text);
 HASH_NODE* hashInsert(int type, char *text);
 HASH_NODE* hashFind(char *text);
 void hashPrint();
+
+int isRunning();
+int getLineNumber();
+void initMe();

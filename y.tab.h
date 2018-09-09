@@ -98,7 +98,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "parser.y" /* yacc.c:1909  */
+#line 18 "parser.y" /* yacc.c:1909  */
  HASH_NODE* symbol; 
 
 #line 105 "y.tab.h" /* yacc.c:1909  */

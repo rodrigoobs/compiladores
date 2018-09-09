@@ -70,9 +70,7 @@
 	#include "y.tab.h"
 	int yylex(void); 
 	void yyerror(char *); 
-	extern char *yytext;
 	extern FILE *yyin;
-	extern int yylineno;
 	
 	#define SYMBOL_LIT_INT 1
 	#define SYMBOL_LIT_FLOAT 2
@@ -81,7 +79,7 @@
 	#define SYMBOL_IDENTIFIER 5
 
 
-#line 85 "y.tab.c" /* yacc.c:339  */
+#line 83 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -169,10 +167,10 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "parser.y" /* yacc.c:355  */
+#line 18 "parser.y" /* yacc.c:355  */
  HASH_NODE* symbol; 
 
-#line 176 "y.tab.c" /* yacc.c:355  */
+#line 174 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -189,7 +187,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 193 "y.tab.c" /* yacc.c:358  */
+#line 191 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -488,12 +486,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    52,    52,    53,    57,    58,    59,    63,    67,    71,
-      72,    73,    77,    78,    79,    84,    85,    89,    93,    94,
-      98,    99,   100,   101,   102,   103,   104,   105,   106,   110,
-     111,   112,   116,   117,   121,   122,   126,   127,   128,   132,
-     133,   137,   138,   139,   140,   141,   142,   143,   144,   145,
-     146,   147,   148,   149,   150,   151,   152,   153,   154,   155
+       0,    50,    50,    51,    55,    56,    57,    61,    65,    69,
+      70,    71,    75,    76,    77,    82,    83,    87,    91,    92,
+      96,    97,    98,    99,   100,   101,   102,   103,   104,   108,
+     109,   110,   114,   115,   119,   120,   124,   125,   126,   130,
+     131,   135,   136,   137,   138,   139,   140,   141,   142,   143,
+     144,   145,   146,   147,   148,   149,   150,   151,   152,   153
 };
 #endif
 
@@ -1356,8 +1354,14 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
+        case 6:
+#line 57 "parser.y" /* yacc.c:1646  */
+    {printf("Success!\n");}
 #line 1361 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1365 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1585,11 +1589,10 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 158 "parser.y" /* yacc.c:1906  */
+#line 156 "parser.y" /* yacc.c:1906  */
  
 
 int yylex();
-extern char *yytext;
 extern FILE *yyin;
 
 extern int isRunning();

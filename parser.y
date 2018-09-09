@@ -5,9 +5,7 @@
 	#include "y.tab.h"
 	int yylex(void); 
 	void yyerror(char *); 
-	extern char *yytext;
 	extern FILE *yyin;
-	extern int yylineno;
 	
 	#define SYMBOL_LIT_INT 1
 	#define SYMBOL_LIT_FLOAT 2
@@ -56,7 +54,7 @@ program:
 progrElements:
 	funcDeclaration progrElements
 	| varDeclaration progrElements
-	|
+	| {printf("Success!\n");}
 	;
 
 name:
@@ -158,7 +156,6 @@ expression:
 %% 
 
 int yylex();
-extern char *yytext;
 extern FILE *yyin;
 
 extern int isRunning();

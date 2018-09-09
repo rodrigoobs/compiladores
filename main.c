@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "hash.h"
+#include "y.tab.h"
 
 int main(int argc, char** argv)
 {
@@ -18,7 +19,7 @@ int main(int argc, char** argv)
 		exit(2);
 	}
 	
-	hashInit();
+	initMe();
 	yyparse();
 	//hashPrint();
 	return 0;

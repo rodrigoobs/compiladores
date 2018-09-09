@@ -6,7 +6,8 @@
 	*/
 	#include "hash.h"
 	#include "y.tab.h"
-	int lineNumber = 1;
+	int lineNumber;
+	int running = 0;
 %}
 digito		[0-9]
 letra		[a|c|[e-o]|[r-z]|[A-Z]]
@@ -58,6 +59,24 @@ caracterEspecial [-|,|;|:|b|d|p|q|{|}|+|*|/|<|>|=|!|&|$|#]
 .				{return TOKEN_ERROR;}
 
 %%
+
+void initMe()
+{
+	hashInit();
+	running = 1;
+	lineNumber = 1;
+}
+
+int isRunning()
+{
+	return running;
+}
+
+int getLineNumber()
+{
+	return lineNumber;
+}
+
 int yywrap()
 {	
 	return 1;

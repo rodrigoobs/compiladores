@@ -32,7 +32,7 @@ HASH_NODE* hashInsert(int type, char *text)
 	HASH_NODE* newNode;
 	int address = hashAddress(text);
 	
-	if (newNode = hashFind(text))
+	if ((newNode = hashFind(text)) != NULL)
 		return newNode;
 	else
 	{
@@ -56,7 +56,7 @@ HASH_NODE* hashFind(char *text)
 	for(node; node; node = node->next)
 		if (node->text == text)
 			return node;
-	return 0;
+	return NULL;
 }
 
 void hashPrint()

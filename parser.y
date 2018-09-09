@@ -38,7 +38,10 @@
 %token<symbol> 	LIT_FLOAT 
 %token<symbol>	LIT_CHAR 
 %token<symbol>	LIT_STRING 
-%token 	TOKEN_ERROR 
+%token 	TOKEN_ERROR
+
+%nonassoc LOWER_THAN_ELSE
+%nonassoc KW_ELSE
 
 %left 	'<' '>' OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_OR OPERATOR_AND 
 %left	'+' '-'
@@ -93,7 +96,7 @@ cmdList:
 
 cmd:
 	attribution
-	| KW_IF expression KW_THEN cmd
+	| KW_IF expression KW_THEN cmd %prec LOWER_THAN_ELSE
 	| KW_IF expression KW_THEN cmd KW_ELSE cmd
 	| KW_WHILE expression cmdBlock
 	| KW_READ name

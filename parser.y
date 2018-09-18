@@ -81,8 +81,7 @@ literal:
 	
 	
 funcDeclaration:
-	type name 'd' parameterList 'b'
-	| type name 'd' parameterList 'b' cmd
+	type name 'd' parameterList 'b' cmd
 	;
 
 cmdBlock:
@@ -98,12 +97,19 @@ cmd:
 	attribution
 	| KW_IF expression KW_THEN cmd %prec LOWER_THAN_ELSE
 	| KW_IF expression KW_THEN cmd KW_ELSE cmd
-	| KW_WHILE expression cmdBlock
+	| KW_WHILE expression cmd
 	| KW_READ name
-	| KW_PRINT argList
+	| KW_PRINT printList
 	| KW_RETURN expression
 	| cmdBlock
 	| 
+	;
+
+printList:
+	LIT_STRING ',' printList
+	| expression ',' printList
+	| LIT_STRING
+	| expression
 	;
 
 parameterList:
@@ -135,7 +141,6 @@ attribution:
 
 expression:
 	literal
-	| LIT_STRING
 	| name
 	| vector
 	| expression '+' expression
@@ -152,7 +157,6 @@ expression:
 	| OPERATOR_NOT expression
 	| 'd' expression 'b'
 	| name 'd' argList 'b'
-	|
         ; 
 
 %% 
